@@ -8,6 +8,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="GetHappinessButton" Content="Get Happiness Score" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="340" Click="GetHappinessButton_Click"/>
+        <StackPanel>
+            <CaptureElement x:Name="captureElement" />
+            <Button x:Name="GetPictureButton" Content="Take Picture" HorizontalAlignment="Left" Margin="10,0,10,0" VerticalAlignment="Top" Width="340" Click="GetPictureButton_Click" />
+            <Image x:Name="previewImage"/>
+            <Button x:Name="GetHappinessButton" Content="Get Happiness Score" HorizontalAlignment="Left" Margin="10,0,10,0" VerticalAlignment="Top" Width="340" Click="GetHappinessButton_Click"/>
+            <TextBlock x:Name="resultText" />
+        </StackPanel>
     </Grid>
 </Page>
