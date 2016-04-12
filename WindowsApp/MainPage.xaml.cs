@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedProject;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,28 @@ namespace WindowsApp
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void GetWeatherButton_Click(object sender, RoutedEventArgs e)
+        {
+            Weather weather = Core.GetWeather(ZipCodeEdit.Text).Result;
+            if (weather != null)
+            {
+                ResultsTitle.Text = weather.Title;
+                TempText.Text = weather.Temperature;
+                WindText.Text = weather.Wind;
+                VisibilityText.Text = weather.Visibility;
+                HumidityText.Text = weather.Humidity;
+                SunriseText.Text = weather.Sunrise;
+                SunsetText.Text = weather.Sunset;
+
+                GetWeatherButton.Content = "Search Again";
+
+            }
+            else
+            {
+                ResultsTitle.Text = "Couldn't find any results";
+            }
         }
     }
 }
