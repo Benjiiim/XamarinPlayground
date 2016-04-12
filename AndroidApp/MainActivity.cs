@@ -43,7 +43,7 @@ namespace AndroidApp
             return availableActivities != null && availableActivities.Count > 0;
         }
 
-        protected override async void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -53,20 +53,26 @@ namespace AndroidApp
             {
                 CreateDirectoryForPictures();
 
-                Button button = FindViewById<Button>(Resource.Id.myButton);
+                Button pictureButton = FindViewById<Button>(Resource.Id.GetPictureButton);
                 _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
-                button.Click += TakeAPicture;
-            }
+                pictureButton.Click += GetPictureButton_Click;
 
-            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
+                Button happinessButton = FindViewById<Button>(Resource.Id.GetHappinessButton);
+                happinessButton.Click += GetHappinessButton_Click;
+            }
         }
 
-        private void TakeAPicture(object sender, EventArgs eventArgs)
+        private void GetPictureButton_Click(object sender, EventArgs eventArgs)
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
             App._file = new Java.IO.File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
             intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(App._file));
             StartActivityForResult(intent, 0);
+        }
+
+        private async void GetHappinessButton_Click(object sender, EventArgs eventArgs)
+        {
+            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
