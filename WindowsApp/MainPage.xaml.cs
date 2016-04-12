@@ -56,9 +56,9 @@ namespace WindowsApp
             return true;
         }
 
-        private void GetHappinessButton_Click(object sender, RoutedEventArgs e)
+        private async void GetHappinessButton_Click(object sender, RoutedEventArgs e)
         {
-            float result = Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg").Result;
+            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
         }
 
         private async void GetPictureButton_Click(object sender, RoutedEventArgs e)

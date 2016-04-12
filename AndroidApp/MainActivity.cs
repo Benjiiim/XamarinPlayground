@@ -8,7 +8,7 @@ using Android.OS;
 using Android.Provider;
 using Android.Widget;
 using Java.IO;
-
+using SharedProject;
 
 namespace AndroidApp
 {
@@ -43,7 +43,7 @@ namespace AndroidApp
             return availableActivities != null && availableActivities.Count > 0;
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -58,7 +58,7 @@ namespace AndroidApp
                 button.Click += TakeAPicture;
             }
 
-            //float result = Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg").Result;
+            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
         }
 
         private void TakeAPicture(object sender, EventArgs eventArgs)
