@@ -8,34 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Weather App" VerticalAlignment="Top" FontSize="40"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" Text="Zip Code:" VerticalAlignment="Top" FontSize="20"/>
-        <TextBox x:Name="ZipCodeEdit" HorizontalAlignment="Left" Margin="99,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="143" Foreground="#FFC127BA"/>
-        <Button x:Name="GetWeatherButton" Content="Get Weather" HorizontalAlignment="Left" Margin="247,68,0,0" VerticalAlignment="Top" Click="GetWeatherButton_Click"/>
-        <TextBlock x:Name="ResultsTitle" HorizontalAlignment="Left" Margin="13,130,0,0" TextWrapping="Wrap" Text="Current Weather" VerticalAlignment="Top" FontSize="25" Foreground="#FFFBF400"/>
-        <StackPanel x:Name="ResultsStackPanel" HorizontalAlignment="Left" Height="198" Margin="13,223,0,0" VerticalAlignment="Top" Width="335" Orientation="Horizontal">
-            <StackPanel Width="100">
-                <TextBlock TextWrapping="Wrap" Text="Temp:" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="Wind:" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="Humidity:" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="Visibility:" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="Sunrise:" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="Sunset:" FontSize="20" Padding="0,0,0,5"/>
-            </StackPanel>
-            <StackPanel Width="100">
-                <TextBlock x:Name="TempText" TextWrapping="Wrap" Text="70" FontSize="20" Margin="0,0,-17,5" HorizontalAlignment="Right" Width="117" Foreground="#FFF2FF00"/>
-                <TextBlock x:Name="WindText" TextWrapping="Wrap" Text="10" FontSize="20" Margin="0,0,-17,5" Foreground="#FFEEFB00"/>
-                <TextBlock x:Name="HumidityText" TextWrapping="Wrap" Text="70" FontSize="20" Margin="0,0,-17,5" Foreground="#FFF0FD00"/>
-                <TextBlock x:Name="VisibilityText" TextWrapping="Wrap" Text="10" FontSize="20" Margin="0,0,-17,5" Foreground="#FFE8F400"/>
-                <TextBlock x:Name="SunriseText" TextWrapping="Wrap" Text="7:46 AM" FontSize="20" Margin="0,0,-17,5" Foreground="#FFF0FD00"/>
-                <TextBlock x:Name="SunsetText" TextWrapping="Wrap" Text="5:58 PM" FontSize="20" Margin="0,0,-17,5" Foreground="#FFEDF900"/>
-            </StackPanel>
-            <StackPanel Width="100">
-                <TextBlock TextWrapping="Wrap" Text="F" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="mph" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="%" FontSize="20" Padding="0,0,0,5"/>
-                <TextBlock TextWrapping="Wrap" Text="miles" FontSize="20" Padding="0,0,0,5"/>
-            </StackPanel>
-        </StackPanel>
+        <Button x:Name="GetHappinessButton" Content="Get Happiness Score" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="340" Click="GetHappinessButton_Click"/>
     </Grid>
 </Page>

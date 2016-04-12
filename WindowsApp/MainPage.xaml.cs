@@ -1,4 +1,5 @@
-﻿using SharedProject;
+﻿using Microsoft.ProjectOxford.Emotion;
+using SharedProject;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,26 +29,9 @@ namespace WindowsApp
             this.InitializeComponent();
         }
 
-        private void GetWeatherButton_Click(object sender, RoutedEventArgs e)
+        private void GetHappinessButton_Click(object sender, RoutedEventArgs e)
         {
-            Weather weather = Core.GetWeather(ZipCodeEdit.Text).Result;
-            if (weather != null)
-            {
-                ResultsTitle.Text = weather.Title;
-                TempText.Text = weather.Temperature;
-                WindText.Text = weather.Wind;
-                VisibilityText.Text = weather.Visibility;
-                HumidityText.Text = weather.Humidity;
-                SunriseText.Text = weather.Sunrise;
-                SunsetText.Text = weather.Sunset;
-
-                GetWeatherButton.Content = "Search Again";
-
-            }
-            else
-            {
-                ResultsTitle.Text = "Couldn't find any results";
-            }
+            float result = Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg").Result;
         }
     }
 }

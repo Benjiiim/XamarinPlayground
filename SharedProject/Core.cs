@@ -2,45 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
+using Microsoft.ProjectOxford.Emotion;
 
 namespace SharedProject
 {
     public class Core
     {
-        public static async Task<Weather> GetWeather(string zipCode)
+        public static async Task<float> GetHappiness(string url)
         {
-            string queryString =
-                "https://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid+in+(select+woeid+from+geo.places(1)+where+text=" +
-                zipCode + ")&format=json";
+            string emotionKey = "88f748eefd944a5d8d337a1765414bba";
 
-            dynamic results = await DataService.getDataFromService(queryString).ConfigureAwait(false);
+            EmotionServiceClient emotionClient = new EmotionServiceClient(emotionKey);
 
-            dynamic weatherOverview = results["query"]["results"]["channel"];
+            var emotionResults = await emotionClient.RecognizeAsync(url);
 
-            if ((string)weatherOverview["description"] != "Yahoo! Weather Error")
+            if (emotionResults == null || emotionResults.Count() == 0)
             {
-                Weather weather = new Weather();
-
-                weather.Title = (string)weatherOverview["description"];
-
-                dynamic wind = weatherOverview["wind"];
-                weather.Temperature = (string)wind["chill"];
-                weather.Wind = (string)wind["speed"];
-
-                dynamic atmosphere = weatherOverview["atmosphere"];
-                weather.Humidity = (string)atmosphere["humidity"];
-                weather.Visibility = (string)atmosphere["visibility"];
-
-                dynamic astronomy = weatherOverview["astronomy"];
-                weather.Sunrise = (string)astronomy["sunrise"];
-                weather.Sunset = (string)astronomy["sunset"];
-
-                return weather;
+                throw new Exception("Can't detect face");
             }
-            else
+
+            //Average happiness calculation in case of multiple people
+            float score = 0;
+            foreach (var emotionResult in emotionResults)
             {
-                return null;
+                score = score + emotionResult.Scores.Happiness;
             }
+            score = score / emotionResults.Count();
+
+            return score;
         }
     }
 }

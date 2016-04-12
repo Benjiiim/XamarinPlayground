@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.ProjectOxford.Emotion": "1.0.11",
     "Newtonsoft.Json": "8.0.3"
   },
   "frameworks": {
