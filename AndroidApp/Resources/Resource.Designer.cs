@@ -60,89 +60,11 @@ namespace AndroidApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int GetWeatherButton = 2131034115;
-			
-			// aapt resource value: 0x7f050010
-			public const int HumidityText = 2131034128;
-			
-			// aapt resource value: 0x7f050005
-			public const int ResultsTable = 2131034117;
-			
-			// aapt resource value: 0x7f050004
-			public const int ResultsTitle = 2131034116;
-			
-			// aapt resource value: 0x7f050018
-			public const int SunriseText = 2131034136;
-			
-			// aapt resource value: 0x7f05001b
-			public const int SunsetText = 2131034139;
-			
-			// aapt resource value: 0x7f050008
-			public const int TempText = 2131034120;
-			
-			// aapt resource value: 0x7f050014
-			public const int VisibilityText = 2131034132;
-			
-			// aapt resource value: 0x7f05000c
-			public const int WindText = 2131034124;
-			
-			// aapt resource value: 0x7f050002
-			public const int ZipCodeEdit = 2131034114;
-			
 			// aapt resource value: 0x7f050001
-			public const int ZipCodeLabel = 2131034113;
+			public const int imageView1 = 2131034113;
 			
 			// aapt resource value: 0x7f050000
-			public const int relativeLayout1 = 2131034112;
-			
-			// aapt resource value: 0x7f050006
-			public const int tableRow1 = 2131034118;
-			
-			// aapt resource value: 0x7f05000a
-			public const int tableRow2 = 2131034122;
-			
-			// aapt resource value: 0x7f05000e
-			public const int tableRow3 = 2131034126;
-			
-			// aapt resource value: 0x7f050012
-			public const int tableRow4 = 2131034130;
-			
-			// aapt resource value: 0x7f050016
-			public const int tableRow5 = 2131034134;
-			
-			// aapt resource value: 0x7f050019
-			public const int tableRow6 = 2131034137;
-			
-			// aapt resource value: 0x7f050007
-			public const int textView21 = 2131034119;
-			
-			// aapt resource value: 0x7f05000b
-			public const int textView22 = 2131034123;
-			
-			// aapt resource value: 0x7f05000f
-			public const int textView23 = 2131034127;
-			
-			// aapt resource value: 0x7f050009
-			public const int textView26 = 2131034121;
-			
-			// aapt resource value: 0x7f05000d
-			public const int textView27 = 2131034125;
-			
-			// aapt resource value: 0x7f050011
-			public const int textView28 = 2131034129;
-			
-			// aapt resource value: 0x7f050013
-			public const int textView34 = 2131034131;
-			
-			// aapt resource value: 0x7f050017
-			public const int textView40 = 2131034135;
-			
-			// aapt resource value: 0x7f05001a
-			public const int textView46 = 2131034138;
-			
-			// aapt resource value: 0x7f050015
-			public const int textView50 = 2131034133;
+			public const int myButton = 2131034112;
 			
 			static Id()
 			{
