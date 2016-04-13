@@ -74,15 +74,32 @@ namespace AndroidApp
         {
             System.IO.Stream stream = System.IO.File.OpenRead(App._file.Path);
 
-            try {
+            try
+            {
                 float result = await Core.GetHappiness(stream);
 
-                //TODO : Display result
+                result = result * 100;
+                double score = Math.Round(result, 2);
+
+                string displayTxt;
+
+                if (score >= 50)
+                {
+                    displayTxt = score + " % :-)";
+                }
+                else
+                {
+                    displayTxt = score + "% :-(";
+                }
+
+                FindViewById<TextView>(Resource.Id.resultText).Text = displayTxt;
             }
-            catch (Exception ex) {
-                //TODO : Display error message
+            catch (Exception ex)
+            {
+                FindViewById<TextView>(Resource.Id.resultText).Text = ex.Message;
             }
-            finally {
+            finally
+            {
                 stream.Close();
             }
         }

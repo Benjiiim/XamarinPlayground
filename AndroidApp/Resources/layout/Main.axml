@@ -19,4 +19,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Get Happiness Score" />
+    <TextView
+        android:text="Take a picture of you and get your happiness score"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultText"
+        android:textAlignment="center" />
 </LinearLayout>

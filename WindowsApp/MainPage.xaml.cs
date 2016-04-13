@@ -58,7 +58,30 @@ namespace WindowsApp
 
         private async void GetHappinessButton_Click(object sender, RoutedEventArgs e)
         {
-            float result = await Core.GetHappiness(await _file.OpenStreamForReadAsync());
+            try
+            {
+                float result = await Core.GetHappiness(await _file.OpenStreamForReadAsync());
+
+                result = result * 100;
+                double score = Math.Round(result, 2);
+
+                string displayTxt;
+
+                if (score >= 50)
+                {
+                    displayTxt = score + " % :-)";
+                }
+                else
+                {
+                    displayTxt = score + "% :-(";
+                }
+
+                resultText.Text = displayTxt;
+            }
+            catch (Exception ex)
+            {
+                resultText.Text = ex.Message;
+            }
         }
 
         private async void GetPictureButton_Click(object sender, RoutedEventArgs e)
