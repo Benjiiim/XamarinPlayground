@@ -16,7 +16,8 @@ namespace SharedProject
 
             EmotionServiceClient emotionClient = new EmotionServiceClient(emotionKey);
 
-            var emotionResults = await emotionClient.RecognizeAsync(url);
+            //var emotionResults = await emotionClient.RecognizeAsync(url);
+            var emotionResults = await emotionClient.RecognizeAsync(new MemoryStream());
 
             if (emotionResults == null || emotionResults.Count() == 0)
             {
