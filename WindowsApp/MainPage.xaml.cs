@@ -58,7 +58,7 @@ namespace WindowsApp
 
         private async void GetHappinessButton_Click(object sender, RoutedEventArgs e)
         {
-            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
+            float result = await Core.GetHappiness(await _file.OpenStreamForReadAsync());
         }
 
         private async void GetPictureButton_Click(object sender, RoutedEventArgs e)

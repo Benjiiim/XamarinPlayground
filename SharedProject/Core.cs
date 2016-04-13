@@ -10,14 +10,13 @@ namespace SharedProject
 {
     public class Core
     {
-        public static async Task<float> GetHappiness(string url)
+        public static async Task<float> GetHappiness(Stream stream)
         {
             string emotionKey = "88f748eefd944a5d8d337a1765414bba";
 
             EmotionServiceClient emotionClient = new EmotionServiceClient(emotionKey);
 
-            //var emotionResults = await emotionClient.RecognizeAsync(url);
-            var emotionResults = await emotionClient.RecognizeAsync(new MemoryStream());
+            var emotionResults = await emotionClient.RecognizeAsync(stream);
 
             if (emotionResults == null || emotionResults.Count() == 0)
             {

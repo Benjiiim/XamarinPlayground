@@ -72,7 +72,19 @@ namespace AndroidApp
 
         private async void GetHappinessButton_Click(object sender, EventArgs eventArgs)
         {
-            float result = await Core.GetHappiness("https://pbs.twimg.com/profile_images/719103789379284992/ufCN7Ooi.jpg");
+            System.IO.Stream stream = System.IO.File.OpenRead(App._file.Path);
+
+            try {
+                float result = await Core.GetHappiness(stream);
+
+                //TODO : Display result
+            }
+            catch (Exception ex) {
+                //TODO : Display error message
+            }
+            finally {
+                stream.Close();
+            }
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
