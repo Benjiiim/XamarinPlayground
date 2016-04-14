@@ -126,16 +126,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Microsoft.ProjectOxford.Common.csproj">
-      <Project>{e858ebf6-cdd6-4f41-9e9d-0644dfa229e5}</Project>
-      <Name>Microsoft.ProjectOxford.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Emotion\Microsoft.ProjectOxford.Emotion.csproj">
-      <Project>{e8a414b0-1281-4586-a030-c5ac32588e55}</Project>
-      <Name>Microsoft.ProjectOxford.Emotion</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
