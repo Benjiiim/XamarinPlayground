@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.ProjectOxford.Emotion;
+using System;
 using System.IO;
 using System.Linq;
-using Microsoft.ProjectOxford.Emotion;
+using System.Threading.Tasks;
 
 namespace SharedProject
 {
