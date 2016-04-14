@@ -65,12 +65,9 @@ namespace AndroidApp
             StartActivityForResult(intent, 0);
         }
 
-        private void ImageCaptureAndDisplay()
+        // Display the picture in ImageView after a resize
+        private void DisplayImage()
         {
-            // Display in ImageView. We will resize the bitmap to fit the display.
-            // Loading the full sized image will consume to much memory
-            // and cause the application to crash.
-
             int height = Resources.DisplayMetrics.HeightPixels;
             int width = _imageView.Height;
             Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height);
@@ -92,7 +89,7 @@ namespace AndroidApp
 
             if (_isCaptureMode == true)
             {
-                ImageCaptureAndDisplay();
+                DisplayImage();
 
                 try
                 {
@@ -116,7 +113,6 @@ namespace AndroidApp
                 resultTextView.Text = "";
                 _isCaptureMode = true;
             }
-}
+        }
     }
 }
-
