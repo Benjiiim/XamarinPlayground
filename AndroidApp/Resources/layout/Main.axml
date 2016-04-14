@@ -3,27 +3,21 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <Button
-        android:id="@+id/GetPictureButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Take Picture" />
     <ImageView
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="fill_parent"
         android:layout_height="300.0dp"
         android:id="@+id/imageView1"
         android:adjustViewBounds="true" />
-    <Button
-        android:id="@+id/GetHappinessButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Happiness Score" />
     <TextView
-        android:text="Take a picture of you and get your happiness score"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resultText"
         android:textAlignment="center" />
+    <Button
+        android:id="@+id/GetPictureButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Picture" />
 </LinearLayout>

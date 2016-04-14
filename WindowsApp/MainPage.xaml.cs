@@ -16,14 +16,14 @@ namespace WindowsApp
         private MediaCapture _captureManager = null;
         private BitmapImage _bmpImage = null;
         private StorageFile _file = null;
-
-        private bool IsCaptureMode = true;
+        private bool _isCaptureMode = true;
 
         public MainPage()
         {
             this.InitializeComponent();
             this.Loaded += MainPage_Loaded;
         }
+
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             await InitMediaCapture();
@@ -63,29 +63,26 @@ namespace WindowsApp
 
         private async void OnActionClick(object sender, RoutedEventArgs e)
         {
-            if (IsCaptureMode == true)
+            if (_isCaptureMode == true)
             {
                 await ImageCaptureAndDisplay();
 
                 try
                 {
-                    float result = await Core.GetHappiness(await _file.OpenStreamForReadAsync());
+                    float result = await Core.GetAverageHappinessScore(await _file.OpenStreamForReadAsync());
 
-                    result = result * 100;
-                    double score = Math.Round(result, 2);
-
-                    if (score >= 50)
-                        hapinessRatio.Text = score + " % :-)";
-                    else
-                        hapinessRatio.Text = score + "% :-(";
+                    hapinessRatio.Text = Core.GetHappinessMessage(result);
 
                     previewImage.Visibility = Visibility.Visible;
-                    actionButton.Content = "Reset";
-                    IsCaptureMode = false;
                 }
                 catch (Exception ex)
                 {
                     hapinessRatio.Text = ex.Message;
+                }
+                finally
+                {
+                    actionButton.Content = "Reset";
+                    _isCaptureMode = false;
                 }
             }
             else
@@ -93,7 +90,7 @@ namespace WindowsApp
                 previewImage.Visibility = Visibility.Collapsed;
                 actionButton.Content = "Take Picture";
                 hapinessRatio.Text = "";
-                IsCaptureMode = true;
+                _isCaptureMode = true;
             }
         }
     }

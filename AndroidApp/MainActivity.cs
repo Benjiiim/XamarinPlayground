@@ -12,26 +12,23 @@ using SharedProject;
 
 namespace AndroidApp
 {
-    public static class App
-    {
-        public static File _file;
-        public static File _dir;
-        public static Bitmap bitmap;
-    }
-
     [Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
+        public static File _file;
+        public static File _dir;
         private ImageView _imageView;
+        private Button _pictureButton;
+        private bool _isCaptureMode = true;
 
         private void CreateDirectoryForPictures()
         {
-            App._dir = new File(
+            _dir = new File(
                 Android.OS.Environment.GetExternalStoragePublicDirectory(
                     Android.OS.Environment.DirectoryPictures), "CameraAppDemo");
-            if (!App._dir.Exists())
+            if (!_dir.Exists())
             {
-                App._dir.Mkdirs();
+                _dir.Mkdirs();
             }
         }
 
@@ -53,84 +50,73 @@ namespace AndroidApp
             {
                 CreateDirectoryForPictures();
 
-                Button pictureButton = FindViewById<Button>(Resource.Id.GetPictureButton);
-                _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
-                pictureButton.Click += GetPictureButton_Click;
+                _pictureButton = FindViewById<Button>(Resource.Id.GetPictureButton);
+                _pictureButton.Click += OnActionClick;
 
-                Button happinessButton = FindViewById<Button>(Resource.Id.GetHappinessButton);
-                happinessButton.Click += GetHappinessButton_Click;
+                _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
             }
         }
 
-        private void GetPictureButton_Click(object sender, EventArgs eventArgs)
+        private void OnActionClick(object sender, EventArgs eventArgs)
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
-            App._file = new Java.IO.File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(App._file));
+            _file = new Java.IO.File(_dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(_file));
             StartActivityForResult(intent, 0);
         }
 
-        private async void GetHappinessButton_Click(object sender, EventArgs eventArgs)
+        private void ImageCaptureAndDisplay()
         {
-            System.IO.Stream stream = System.IO.File.OpenRead(App._file.Path);
-
-            try
-            {
-                float result = await Core.GetHappiness(stream);
-
-                result = result * 100;
-                double score = Math.Round(result, 2);
-
-                string displayTxt;
-
-                if (score >= 50)
-                {
-                    displayTxt = score + " % :-)";
-                }
-                else
-                {
-                    displayTxt = score + "% :-(";
-                }
-
-                FindViewById<TextView>(Resource.Id.resultText).Text = displayTxt;
-            }
-            catch (Exception ex)
-            {
-                FindViewById<TextView>(Resource.Id.resultText).Text = ex.Message;
-            }
-            finally
-            {
-                stream.Close();
-            }
-        }
-
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-
-            // Make it available in the gallery
-
-            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Android.Net.Uri contentUri = Android.Net.Uri.FromFile(App._file);
-            mediaScanIntent.SetData(contentUri);
-            SendBroadcast(mediaScanIntent);
-
             // Display in ImageView. We will resize the bitmap to fit the display.
             // Loading the full sized image will consume to much memory
             // and cause the application to crash.
 
             int height = Resources.DisplayMetrics.HeightPixels;
             int width = _imageView.Height;
-            App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
-            if (App.bitmap != null)
+            Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height);
+            if (bitmap != null)
             {
-                _imageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
+                _imageView.SetImageBitmap(bitmap);
+                bitmap = null;
             }
 
             // Dispose of the Java side bitmap.
             GC.Collect();
         }
+
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            TextView resultTextView = FindViewById<TextView>(Resource.Id.resultText);
+
+            if (_isCaptureMode == true)
+            {
+                ImageCaptureAndDisplay();
+
+                try
+                {
+                    float result = await Core.GetAverageHappinessScore(System.IO.File.OpenRead(_file.Path));
+
+                    resultTextView.Text = Core.GetHappinessMessage(result);
+                }
+                catch (Exception ex)
+                {
+                    resultTextView.Text = ex.Message;
+                }
+                finally
+                {
+                    _pictureButton.Text = "Reset";
+                    _isCaptureMode = false;
+                }
+            }
+            else
+            {
+                _pictureButton.Text = "Take Picture";
+                resultTextView.Text = "";
+                _isCaptureMode = true;
+            }
+}
     }
 }
 

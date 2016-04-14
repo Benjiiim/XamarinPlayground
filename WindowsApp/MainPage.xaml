@@ -7,13 +7,17 @@
     mc:Ignorable="d">
     <Grid Background="Black">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="hapinessRatio" Margin="12" Foreground="BlueViolet" FontSize="24"/>
-        <CaptureElement Grid.Row="1" x:Name="captureElement" />
-        <Image x:Name="previewImage" Grid.Row="1" Visibility="Collapsed"/>
+        <CaptureElement Grid.Row="0" x:Name="captureElement" />
+        <Image x:Name="previewImage" Grid.Row="0" Visibility="Collapsed"/>
+        <TextBlock Grid.Row="1" x:Name="hapinessRatio"
+                   Margin="12"
+                   Foreground="BlueViolet"
+                   FontSize="24"
+                   HorizontalAlignment="Center" />
         <Button Grid.Row="2" x:Name="actionButton" 
                 Content="Take Picture" 
                 HorizontalAlignment="Stretch" 

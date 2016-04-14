@@ -1,4 +1,5 @@
 ﻿using Microsoft.ProjectOxford.Emotion;
+using Microsoft.ProjectOxford.Emotion.Contract;
 using System;
 using System.IO;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace SharedProject
 {
     public class Core
     {
-        public static async Task<float> GetHappiness(Stream stream)
+        private static async Task<Emotion[]> GetHappiness(Stream stream)
         {
             string emotionKey = "88f748eefd944a5d8d337a1765414bba";
 
@@ -21,15 +22,32 @@ namespace SharedProject
                 throw new Exception("Can't detect face");
             }
 
-            //Average happiness calculation in case of multiple people
+            return emotionResults;
+        }
+
+        //Average happiness calculation in case of multiple people
+        public static async Task<float> GetAverageHappinessScore(Stream stream)
+        {
+            Emotion[] emotionResults = await GetHappiness(stream);
+
             float score = 0;
             foreach (var emotionResult in emotionResults)
             {
                 score = score + emotionResult.Scores.Happiness;
             }
-            score = score / emotionResults.Count();
 
-            return score;
+            return score / emotionResults.Count();
+        }
+
+        public static string GetHappinessMessage(float score)
+        {
+            score = score * 100;
+            double result = Math.Round(score, 2);
+
+            if (score >= 50)
+                return result + " % :-)";
+            else
+                return result + "% :-(";
         }
     }
 }
