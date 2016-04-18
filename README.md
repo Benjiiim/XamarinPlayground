@@ -1,6 +1,13 @@
 # XamarinPlayground
 
 ### The Challenge
+In this challenge, you will use one of the Microsoft Cognitive Services API to bring intelligence in a Xamarin-based cross-platform application.
+
+The goal is to use the Emotion API to get your happiness percentage after getting a picture of you with the device/emulator camera.
+
+The walkthrough below should help you with the callenge, but you can also get in touch with @benjiiim or @aspenwilder with questions--both of whom are on site at Evolve and happy to help!
+
+The walkthrough has been written with Visual Studio 2015 Update 2 (with Xamarin tools installed) but should work in a similar way with Xamarin Studio.
 
 ### Challenge Walkthrough
 
