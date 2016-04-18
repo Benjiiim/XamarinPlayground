@@ -65,12 +65,9 @@ namespace AndroidApp
             StartActivityForResult(intent, 0);
         }
 
-        // Display the picture in ImageView after a resize
         private void DisplayImage()
         {
-            int height = Resources.DisplayMetrics.HeightPixels;
-            int width = _imageView.Height;
-            Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height);
+            Bitmap bitmap = BitmapFactory.DecodeFile(_file.Path);
             if (bitmap != null)
             {
                 _imageView.SetImageBitmap(bitmap);
