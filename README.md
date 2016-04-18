@@ -405,7 +405,7 @@ Be sure to have the following using statements:
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media.Imaging;
 
-##### Declare the right 
+##### Declare the right capabilities for your app
 
 Open the Package.appxmanifest file, and add the following Capabilities to your application, thanks to the correct checkboxes in the Capabilities tab:
 * Microphone
