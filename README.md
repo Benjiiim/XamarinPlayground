@@ -24,8 +24,8 @@ The walkthrough has been written with Visual Studio 2015 Update 2 (with Xamarin 
 1. With Visual Studio 2015, create a new project with the Templates > Visual C# > Android > Blank App (Android) project template. Use a name like "AndroidApp" and a new solution with a name like "XamarinCognitive". Click the OK button and the project will be created for you.
 
 2. Add the following Nuget packages to your project (in the correct order):
-* Microsoft.Bcl.Build
-* Microsoft.ProjectOxford.Emotion
+    * Microsoft.Bcl.Build
+    * Microsoft.ProjectOxford.Emotion
 
 ##### Design the UI layer
 
