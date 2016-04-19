@@ -260,6 +260,15 @@ Finally, you have to add the following using statement in your MainActivity.cs c
 using SharedProject;
 ```
 
+##### Declare the right capabilities for your app
+
+Right click on the Android Project and select Properties.  Click on the Android Manifest on the left panel and request the Required Permissions:
+
+* CAMERA
+* WRITE_EXTERNAL_STORAGE
+
+Save the project properties.
+
 ##### Build and run the project
 
 Build the solution and run the project thanks to the Visual Studio Emulator (pressing F5 is a good option for that).
