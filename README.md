@@ -1,35 +1,35 @@
 # Microsoft Cognitive Services Emotion API with Xamarin apps
 
 ### The Challenge
-In this challenge, you will use one of the Microsoft Cognitive Services API to bring intelligence in a Xamarin-based cross-platform application.
+In this challenge, you will use one of the [Microsoft Cognitive Services API's](https://www.microsoft.com/cognitive-services/) to bring intelligence to a Xamarin cross-platform application.
 
-The goal is to use the Emotion API to get your happiness percentage after getting a picture of you with the device/emulator camera.
+The goal is to use the [Microsoft Cognitive Services Emotion API](https://www.microsoft.com/cognitive-services/en-us/emotion-api) to get your happiness percentage after taking a picture of yourself with the device/emulator camera.
 
-The walkthrough below should help you with the callenge, but you can also get in touch with @benjiiim or @aspenwilder with questions--both of whom are on site at Evolve and happy to help!
+The walkthrough below should help you with the challenge, but you can also get in touch with [@benjiiim](https://twitter.com/benjiiim) or [@aspenwilder](https://twitter.com/aspenwilder) with questions--both of whom are on site at Evolve and happy to help!
 
-The walkthrough has been written with Visual Studio 2015 Update 2 (with Xamarin tools installed) but should work in a similar way with Xamarin Studio.
+The walkthrough has been written with Visual Studio 2015 Update 2 (with Xamarin tools installed) but should work in a similar way with Xamarin Studio.  It will require 24.3.4 or newer of the Android SDK.  You will be prompted to upgrade if necessary. 
 
 ### Challenge Walkthrough
 
 ##### Get a Cognitive Service Emotion API trial key
  
-To get a trial key and be able to use the Emotion API, go to www.microsoft.com/cognitive-services, use the My account link on the top-right corner and login with a Microsoft Account (ex Live ID).
+1. To get a trial key and be able to use the Emotion API, go to [www.microsoft.com/cognitive-services](https://www.microsoft.com/cognitive-services/), use the My account link on the top-right corner and login with a Microsoft Account (ex Live ID).
 
-Click on the "Request new trials" button, choose the Emotion API product ans accept the services terms and the privacy statement to subscribe.
+2. Click on the "Request new trials" button, choose the Emotion API product and accept the terms of service and the privacy statement to subscribe.
 
-Keep one of the generated key with you as you will need it later.
+3. Keep one of the generated keys with you as you will need it later.
 
-##### Create a Android blank project in Visual Studio 2015 with updates and Xamarin setup
+##### Create an Android blank project in Visual Studio 2015 with updates and Xamarin setup
 
-With Visual Studio 2015, create a new project with the Templates > Visual C# > Android > Blank App (Android) project template. Use a name like "AndroidApp" and a new solution with a name like "XamarinCognitive".
+1. With Visual Studio 2015, create a new project with the Templates > Visual C# > Android > Blank App (Android) project template. Use a name like "AndroidApp" and a new solution with a name like "XamarinCognitive". Click the OK button and the project will be created for you.
 
-Add the following Nuget packages to your project (in the correct order):
+2. Add the following Nuget packages to your project (in the correct order):
 * Microsoft.Bcl.Build
 * Microsoft.ProjectOxford.Emotion
 
 ##### Design the UI layer
 
-The UI should be composed of an ImageView, a TextView and a Button. You can create them by opening the Main.axml file with the Designer or the Source view. You can copy/paste the following code to save some time:
+The UI should be composed of an ImageView, a TextView and a Button. You can create them by opening the ```Resources/layout/Main.axml``` file with the Designer or the Source view. You can copy/paste the following code to save some time:
 
     <?xml version="1.0" encoding="utf-8"?>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -55,7 +55,7 @@ The UI should be composed of an ImageView, a TextView and a Button. You can crea
       android:text="Take Picture" />
     </LinearLayout>
 
-Build the solution in order to add control IDs to the Resource.Designer.cs file so that you can refer to controls by name in code.
+Build the solution which will add the control IDs to the ```Resource.Designer.cs``` file so that you can refer to controls by name in code.
 
 ##### Get the camera stream, take a picture and send the stream to the shared code
 
@@ -63,7 +63,7 @@ Build the solution in order to add control IDs to the Resource.Designer.cs file 
  The button is bound to an event, which creates the logic associated to the ActionImageCapture Android Intent.  
  The image is saved as a bitmap, displayed on the UI and then sent as a stream to the business logic.
  
- Replace the MainActivity class by the following code:
+ Replace the ```MainActivity``` class with the following code:
 
     [Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
@@ -205,7 +205,7 @@ Copy/Paste the following code, by replacing the placeholder with your Emotion AP
         return emotionResults;
     }
 
-Copy/Paste the following code in the Core class, which are utilies method to do some calculation and some formating on the API results:
+Copy/Paste the following code in the Core class, which are utilities method to do some calculation and some formating on the API results:
 
     //Average happiness calculation in case of multiple people
     public static async Task<float> GetAverageHappinessScore(Stream stream)
@@ -241,9 +241,9 @@ Be sure to use the following using statements in the Core class:
     using System.Linq;
     using System.Threading.Tasks;
 
-You can now add a reference to your SharedProject project from you Android app, by using the wizard available after a right click on the "References" node in the Solution Explorer. One section of this wizard is listing all the Shared Projects available in your solution.
+You can now add a reference to your SharedProject project from you Android app, by using the wizard available after a right clicking on the "References" node in the Solution Explorer. One section of this wizard is a listing of all the Shared Projects available in your solution.
 
-Finaly, you have to add the following using statement in your MainActivity.cs class:
+Finally, you have to add the following using statement in your MainActivity.cs class:
 
     using SharedProject;
 
@@ -257,7 +257,7 @@ By clicking on the "Take a picture" button, you should launch the webcam capture
 
 #### Bonus Challenge #1 Walkthrough
 
-As we have used a Shared Project, the logic can be easily shared between several apps. We're going to demonstrate that by adding a Universal Windows Platform application to the solution, to target the hundreds of millions Windows 10 devices out there.
+As we have used a Shared Project, the logic can be easily shared between several apps. We're going to demonstrate this by adding a Universal Windows Platform application to the solution, to target the hundreds of millions Windows 10 devices out there.
 
 ##### Create a UWP project in your solution
 
@@ -270,7 +270,7 @@ You can now add a reference to your SharedProject project from you UWP app, the 
 
 ##### Design the UI layer
 
-For this single page application, the UI layer can be built in the MainPage.xaml file. We're going to use a CaptureElement, an Image, a TextBlock and a Button for our UI. You can copy/paste the following code to save some time:
+For this single page application, the UI layer can be built in the ```MainPage.xaml``` file. We're going to use a CaptureElement, an Image, a TextBlock and a Button for our UI. You can copy/paste the following code to save some time:
 
     <Page x:Class="WindowsApp.MainPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -306,7 +306,7 @@ For this single page application, the UI layer can be built in the MainPage.xaml
 The logic behind the UI is quite simple.  
 The MediaCapture is triggered during the page load, the button is bound to an event, which saves the picture as a bitmap, display it on the UI and then send it as a stream to the business logic.
 
-Replace the MainPage class by the following code:
+Replace the ```MainPage``` class by the following code:
 
     public sealed partial class MainPage : Page
     {
@@ -407,7 +407,7 @@ Be sure to have the following using statements:
 
 ##### Declare the right capabilities for your app
 
-Open the Package.appxmanifest file, and add the following Capabilities to your application, thanks to the correct checkboxes in the Capabilities tab:
+Open the ```Package.appxmanifest``` file, and add the following Capabilities to your application, thanks to the correct checkboxes in the Capabilities tab:
 * Microphone
 * Webcam
 
@@ -415,6 +415,6 @@ Open the Package.appxmanifest file, and add the following Capabilities to your a
 
 In the Solution Configuration Manager (by right clicking on the solution node in the Solution Explorer), check the Build and Deploy checkboxes for your UWP project.
 
-Build the solution and run the UWP project. You don't need an Emulator by using Windows 10 as a development machine.
+Build the solution and run the UWP project. You don't need an Emulator by [using Windows 10 as a development machine](https://msdn.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development#enable-your-windows-10-devices).
 
 By clicking on the "Take a picture" button, you will capture a picture, send it to the API and display the result on the screen.
