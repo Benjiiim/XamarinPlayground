@@ -16,6 +16,7 @@ namespace AndroidApp
     public class MainActivity : Activity
     {
         public static File _file;
+        public static Bitmap _bitmap;
         public static File _dir;
         private ImageView _imageView;
         private Button _pictureButton;
@@ -71,6 +72,13 @@ namespace AndroidApp
             }
             else
             {
+                _imageView.SetImageBitmap(null);
+                if (_bitmap != null)
+                {
+                    _bitmap.Recycle();
+                    _bitmap.Dispose();
+                    _bitmap = null;
+                }
                 _pictureButton.Text = "Take Picture";
                 _resultTextView.Text = "";
                 _isCaptureMode = true;
@@ -79,15 +87,11 @@ namespace AndroidApp
 
         private void DisplayImage()
         {
-            Bitmap bitmap = BitmapFactory.DecodeFile(_file.Path);
-            if (bitmap != null)
+            _bitmap = BitmapFactory.DecodeFile(_file.Path);
+            if (_bitmap != null)
             {
-                _imageView.SetImageBitmap(bitmap);
-                bitmap = null;
+                _imageView.SetImageBitmap(_bitmap);
             }
-
-            // Dispose of the Java side bitmap.
-            GC.Collect();
         }
 
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
