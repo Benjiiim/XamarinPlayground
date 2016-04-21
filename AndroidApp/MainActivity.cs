@@ -12,7 +12,7 @@ using SharedProject;
 
 namespace AndroidApp
 {
-    [Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
         public static File _file;
