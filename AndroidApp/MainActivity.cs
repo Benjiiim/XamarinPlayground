@@ -19,6 +19,7 @@ namespace AndroidApp
         public static File _dir;
         private ImageView _imageView;
         private Button _pictureButton;
+        private TextView _resultTextView;
         private bool _isCaptureMode = true;
 
         private void CreateDirectoryForPictures()
@@ -54,15 +55,26 @@ namespace AndroidApp
                 _pictureButton.Click += OnActionClick;
 
                 _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+
+                _resultTextView = FindViewById<TextView>(Resource.Id.resultText);
             }
         }
 
         private void OnActionClick(object sender, EventArgs eventArgs)
         {
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
-            _file = new Java.IO.File(_dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(_file));
-            StartActivityForResult(intent, 0);
+            if (_isCaptureMode == true)
+            {
+                Intent intent = new Intent(MediaStore.ActionImageCapture);
+                _file = new Java.IO.File(_dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+                intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(_file));
+                StartActivityForResult(intent, 0);
+            }
+            else
+            {
+                _pictureButton.Text = "Take Picture";
+                _resultTextView.Text = "";
+                _isCaptureMode = true;
+            }
         }
 
         private void DisplayImage()
@@ -82,33 +94,22 @@ namespace AndroidApp
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            TextView resultTextView = FindViewById<TextView>(Resource.Id.resultText);
-
-            if (_isCaptureMode == true)
+            try
             {
                 DisplayImage();
 
-                try
-                {
-                    float result = await Core.GetAverageHappinessScore(System.IO.File.OpenRead(_file.Path));
+                float result = await Core.GetAverageHappinessScore(System.IO.File.OpenRead(_file.Path));
 
-                    resultTextView.Text = Core.GetHappinessMessage(result);
-                }
-                catch (Exception ex)
-                {
-                    resultTextView.Text = ex.Message;
-                }
-                finally
-                {
-                    _pictureButton.Text = "Reset";
-                    _isCaptureMode = false;
-                }
+                _resultTextView.Text = Core.GetHappinessMessage(result);
             }
-            else
+            catch (Exception ex)
             {
-                _pictureButton.Text = "Take Picture";
-                resultTextView.Text = "";
-                _isCaptureMode = true;
+                _resultTextView.Text = ex.Message;
+            }
+            finally
+            {
+                _pictureButton.Text = "Reset";
+                _isCaptureMode = false;
             }
         }
     }
