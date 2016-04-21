@@ -85,26 +85,29 @@ namespace AndroidApp
             }
         }
 
-        private void DisplayImage()
-        {
-            _bitmap = BitmapFactory.DecodeFile(_file.Path);
-            if (_bitmap != null)
-            {
-                _imageView.SetImageBitmap(_bitmap);
-            }
-        }
-
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
             try
             {
-                DisplayImage();
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                {
+                    //Get the bitmap with the right rotation
+                    _bitmap = BitmapFactory.DecodeFile(_file.Path);
+                    _bitmap = BitmapHelpers.RotateBitmap(_bitmap, _file.Path);
 
-                float result = await Core.GetAverageHappinessScore(System.IO.File.OpenRead(_file.Path));
+                    //Get a stream
+                    _bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                    stream.Seek(0, System.IO.SeekOrigin.Begin);
 
-                _resultTextView.Text = Core.GetHappinessMessage(result);
+                    //Get and display the result
+                    float result = await Core.GetAverageHappinessScore(stream);
+                    _resultTextView.Text = Core.GetHappinessMessage(result);
+                }
+
+                //Display the image
+                _imageView.SetImageBitmap(_bitmap);
             }
             catch (Exception ex)
             {
