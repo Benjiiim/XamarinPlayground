@@ -75,8 +75,10 @@ namespace AndroidApp
 {
     public static class BitmapHelpers
     {
-        public static Bitmap RotateBitmap(Bitmap bitmap, string fileName)
+        public static Bitmap GetAndRotateBitmap(string fileName)
         {
+            Bitmap bitmap = BitmapFactory.DecodeFile(fileName);
+
             // Images are being saved in landscape, so rotate them back to portrait if they were taken in portrait
             // See https://forums.xamarin.com/discussion/5409/photo-being-saved-in-landscape-not-portrait
             // See http://developer.android.com/reference/android/media/ExifInterface.html
@@ -198,17 +200,16 @@ public class MainActivity : Activity
 
         try
         {
+            //Get the bitmap with the right rotation
+            _bitmap = BitmapHelpers.GetAndRotateBitmap(_file.Path);
+
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
             {
-                //Get the bitmap with the right rotation
-                _bitmap = BitmapFactory.DecodeFile(_file.Path);
-                _bitmap = BitmapHelpers.RotateBitmap(_bitmap, _file.Path);
-
                 //Get a stream
                 _bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
                 stream.Seek(0, System.IO.SeekOrigin.Begin);
 
-                //Get and display the result
+                //Get and display the happiness score
                 float result = await Core.GetAverageHappinessScore(stream);
                 _resultTextView.Text = Core.GetHappinessMessage(result);
             }
