@@ -28,15 +28,18 @@ namespace SharedProject
         //Average happiness calculation in case of multiple people
         public static async Task<float> GetAverageHappinessScore(Stream stream)
         {
-            Emotion[] emotionResults = await GetHappiness(stream);
+			try {
+				Emotion [] emotionResults = await GetHappiness (stream);
 
-            float score = 0;
-            foreach (var emotionResult in emotionResults)
-            {
-                score = score + emotionResult.Scores.Happiness;
-            }
+				float score = 0;
+				foreach (var emotionResult in emotionResults) {
+					score = score + emotionResult.Scores.Happiness;
+				}
 
-            return score / emotionResults.Count();
+				return score / emotionResults.Count ();
+			} catch (Exception e) {
+				return 0;
+			}
         }
 
         public static string GetHappinessMessage(float score)
