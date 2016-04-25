@@ -63,18 +63,71 @@ Build the solution which will add the control IDs to the ```Resource.Designer.cs
 
  The logic behind the UI is quite simple.  
  The button is bound to an event, which creates the logic associated to the ActionImageCapture Android Intent.  
- The image is saved as a bitmap, displayed on the UI and then sent as a stream to the business logic.
+ The image is saved as a bitmap, rotated in portrait mode, displayed on the UI and then sent as a stream to the business logic.
  
- Replace the ```MainActivity``` class with the following code:
+ Create a new ```BitmapHelper``` class in the Android project and replace the code with the following:
+ 
+```csharp
+using Android.Graphics;
+using Android.Media;
+
+namespace AndroidApp
+{
+    public static class BitmapHelpers
+    {
+        public static Bitmap RotateBitmap(Bitmap bitmap, string fileName)
+        {
+            // Images are being saved in landscape, so rotate them back to portrait if they were taken in portrait
+            // See https://forums.xamarin.com/discussion/5409/photo-being-saved-in-landscape-not-portrait
+            // See http://developer.android.com/reference/android/media/ExifInterface.html
+            using (Matrix mtx = new Matrix())
+            {
+                ExifInterface exif = new ExifInterface(fileName);
+                var orientation = (Orientation)exif.GetAttributeInt(ExifInterface.TagOrientation, (int)Orientation.Undefined);
+
+                //TODO : handle FlipHorizontal, FlipVertical, Transpose and Transverse
+                //Undefined might be an emulator issue. Taking the assumption that the picture has been taken in portrait mode
+                switch (orientation)
+                {
+                    case Orientation.Undefined:
+                    case Orientation.Rotate90:
+                        mtx.PreRotate(90);
+                        break;
+                    case Orientation.Rotate180:
+                        mtx.PreRotate(180);
+                        break;
+                    case Orientation.Rotate270:
+                        mtx.PreRotate(270);
+                        break;
+                    case Orientation.Normal:
+                        // Normal, do nothing
+                        break;
+                    default:
+                        break;
+                }
+
+                if (mtx != null)
+                    bitmap = Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, mtx, false);
+            }
+
+            return bitmap;
+        }
+    }
+}
+```
+ 
+ Then, replace the ```MainActivity``` class with the following code:
 
 ```csharp
-[Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon")]
+[Activity(Label = "AndroidApp", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
 public class MainActivity : Activity
 {
     public static File _file;
     public static File _dir;
+    public static Bitmap _bitmap; 
     private ImageView _imageView;
     private Button _pictureButton;
+    private TextView _resultTextView; 
     private bool _isCaptureMode = true;
 
     private void CreateDirectoryForPictures()
@@ -110,61 +163,67 @@ public class MainActivity : Activity
             _pictureButton.Click += OnActionClick;
 
             _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+            
+            _resultTextView = FindViewById<TextView>(Resource.Id.resultText); 
         }
     }
 
     private void OnActionClick(object sender, EventArgs eventArgs)
     {
-        Intent intent = new Intent(MediaStore.ActionImageCapture);
-        _file = new Java.IO.File(_dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-        intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(_file));
-        StartActivityForResult(intent, 0);
-    }
-
-    private void DisplayImage()
-    {
-        Bitmap bitmap = BitmapFactory.DecodeFile(_file.Path);
-        if (bitmap != null)
+        if (_isCaptureMode == true)
         {
-            _imageView.SetImageBitmap(bitmap);
-            bitmap = null;
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            _file = new Java.IO.File(_dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(_file));
+            StartActivityForResult(intent, 0);
         }
-
-        // Dispose of the Java side bitmap.
-        GC.Collect();
+        else
+        {
+            _imageView.SetImageBitmap(null);
+            if (_bitmap != null)
+            {
+                _bitmap.Recycle();
+                _bitmap.Dispose();
+                _bitmap = null;
+            }
+            _pictureButton.Text = "Take Picture";
+            _resultTextView.Text = "";
+            _isCaptureMode = true;
+        }
     }
 
     protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
     {
         base.OnActivityResult(requestCode, resultCode, data);
 
-        TextView resultTextView = FindViewById<TextView>(Resource.Id.resultText);
-
-        if (_isCaptureMode == true)
+        try
         {
-            DisplayImage();
+            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+            {
+                //Get the bitmap with the right rotation
+                _bitmap = BitmapFactory.DecodeFile(_file.Path);
+                _bitmap = BitmapHelpers.RotateBitmap(_bitmap, _file.Path);
 
-            try
-            {
-                float result = await Core.GetAverageHappinessScore(System.IO.File.OpenRead(_file.Path));
+                //Get a stream
+                _bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
 
-                resultTextView.Text = Core.GetHappinessMessage(result);
+                //Get and display the result
+                float result = await Core.GetAverageHappinessScore(stream);
+                _resultTextView.Text = Core.GetHappinessMessage(result);
             }
-            catch (Exception ex)
-            {
-                resultTextView.Text = ex.Message;
-            }
-            finally
-            {
-                _pictureButton.Text = "Reset";
-                _isCaptureMode = false;
-            }
+
+            //Display the image
+            _imageView.SetImageBitmap(_bitmap);
         }
-        else
+        catch (Exception ex)
         {
-            _pictureButton.Text = "Take Picture";
-            resultTextView.Text = "";
-            _isCaptureMode = true;
+            _resultTextView.Text = ex.Message;
+        }
+        finally
+        {
+            _pictureButton.Text = "Reset";
+            _isCaptureMode = false;
         }
     }
 }
