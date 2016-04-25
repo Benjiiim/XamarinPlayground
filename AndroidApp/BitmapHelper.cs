@@ -5,8 +5,10 @@ namespace AndroidApp
 {
     public static class BitmapHelpers
     {
-        public static Bitmap RotateBitmap(Bitmap bitmap, string fileName)
+        public static Bitmap GetAndRotateBitmap(string fileName)
         {
+            Bitmap bitmap = BitmapFactory.DecodeFile(fileName);
+
             // Images are being saved in landscape, so rotate them back to portrait if they were taken in portrait
             // See https://forums.xamarin.com/discussion/5409/photo-being-saved-in-landscape-not-portrait
             // See http://developer.android.com/reference/android/media/ExifInterface.html
