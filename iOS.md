@@ -9,7 +9,7 @@
 
 The UI should be composed of an UIImageView, a UILabel and a UIButton. Open up Main.storyboard and lay them out similar to:
 
-![alt text](https://github.com/chamons/XamarinPlayground/raw/docs/images/iOS.png "")
+![alt text](https://raw.githubusercontent.com/Benjiiim/XamarinPlayground/master/images/iOS.png "")
 
 Name the label "DetailsText", the button "TakePhotoButton", and the image view "ThePhoto".
 
