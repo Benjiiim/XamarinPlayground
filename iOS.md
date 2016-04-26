@@ -28,50 +28,50 @@ Feel free to ask the person running the mini-hack for assistence if needed.
  Replace the ```ViewController``` class with the following code:
 
 ```csharp
-		protected ViewController (IntPtr handle) : base (handle)
-		{
-			// Note: this .ctor should not contain any initialization logic.
-		}
+protected ViewController (IntPtr handle) : base (handle)
+{
+	// Note: this .ctor should not contain any initialization logic.
+}
 	
-		public override void ViewDidAppear (bool animated)
-		{
-			TakePhotoButton.TouchDown += OnTakePhotoPressed;
+public override void ViewDidAppear (bool animated)
+{
+	TakePhotoButton.TouchDown += OnTakePhotoPressed;
+}
+
+void OnTakePhotoPressed (object sender, EventArgs eventArgs)
+{
+	TakePhotoButton.Enabled = false;
+
+	UIImagePickerController picker = new UIImagePickerController ();
+	picker.SourceType = UIImagePickerControllerSourceType.Camera;
+
+	picker.FinishedPickingMedia += async (o, e) => {
+		// Create a moderate quality version of the image
+		byte [] dataBytes;
+		using (NSData data = e.OriginalImage.AsJPEG (.5f)) {
+			dataBytes = new byte [data.Length];
+			System.Runtime.InteropServices.Marshal.Copy (data.Bytes, dataBytes, 0, Convert.ToInt32 (data.Length));
 		}
 
-		void OnTakePhotoPressed (object sender, EventArgs eventArgs)
-		{
-			TakePhotoButton.Enabled = false;
+		ThePhoto.Image = e.OriginalImage;
+		DetailsText.Text = "Processing...";
 
-			UIImagePickerController picker = new UIImagePickerController ();
-			picker.SourceType = UIImagePickerControllerSourceType.Camera;
+		((UIImagePickerController)o).DismissViewController (true, null);
 
-			picker.FinishedPickingMedia += async (o, e) => {
-				// Create a moderate quality version of the image
-				byte [] dataBytes;
-				using (NSData data = e.OriginalImage.AsJPEG (.5f)) {
-					dataBytes = new byte [data.Length];
-					System.Runtime.InteropServices.Marshal.Copy (data.Bytes, dataBytes, 0, Convert.ToInt32 (data.Length));
-				}
+		// Create a stream, send it to MCS, and get back 
+		using (MemoryStream stream = new MemoryStream (dataBytes)) {
+			try {
+				float happyValue = await SharedProject.Core.GetAverageHappinessScore (stream);
+				DetailsText.Text = SharedProject.Core.GetHappinessMessage (happyValue);
+			} catch (Exception ex) {
+				DetailsText.Text = ex.Message;
+			}
+			TakePhotoButton.Enabled = true;
 
-				ThePhoto.Image = e.OriginalImage;
-				DetailsText.Text = "Processing...";
-
-				((UIImagePickerController)o).DismissViewController (true, null);
-
-				// Create a stream, send it to MCS, and get back 
-				using (MemoryStream stream = new MemoryStream (dataBytes)) {
-					try {
-						float happyValue = await SharedProject.Core.GetAverageHappinessScore (stream);
-						DetailsText.Text = SharedProject.Core.GetHappinessMessage (happyValue);
-					} catch (Exception ex) {
-						DetailsText.Text = ex.Message;
-					}
-					TakePhotoButton.Enabled = true;
-
-				}
-			};
-			PresentModalViewController (picker, true);
 		}
+	};
+	PresentModalViewController (picker, true);
+}
 ```
 
 Be sure to have the following using statements:
