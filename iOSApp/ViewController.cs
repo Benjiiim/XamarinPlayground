@@ -12,7 +12,12 @@ namespace iOSApp
 			// Note: this .ctor should not contain any initialization logic.
 		}
 
-		partial void OnTakePhotoPressed (UIButton sender)
+		public override void AwakeFromNib ()
+		{
+			TakePhotoButton.TouchDown += OnTakePhotoPressed;
+		}
+
+		void OnTakePhotoPressed (object sender, EventArgs eventArgs)
 		{
 			TakePhotoButton.Enabled = false;
 
@@ -24,7 +29,6 @@ namespace iOSApp
 				byte [] dataBytes;
 				using (NSData data = e.OriginalImage.AsJPEG (.5f)) {
 					dataBytes = new byte [data.Length];
-					Console.WriteLine (data.Length);
 					System.Runtime.InteropServices.Marshal.Copy (data.Bytes, dataBytes, 0, Convert.ToInt32 (data.Length));
 				}
 
