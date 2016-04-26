@@ -14,7 +14,7 @@ This challenge requires either:
 
 ### Challenge Walkthrough
 
-### Get a Cognitive Service Emotion API trial key
+#### Get a Cognitive Service Emotion API trial key
  
 1. To get a trial key and be able to use the Emotion API, go to [www.microsoft.com/cognitive-services](https://www.microsoft.com/cognitive-services/), use the My account link on the top-right corner and login with a Microsoft Account (ex Live ID).
 
@@ -22,7 +22,7 @@ This challenge requires either:
 
 3. Keep one of the generated keys with you as you will need it later.
 
-### Build either an Android or iOS App
+#### Build either an Android or iOS App
 
 [Android](Android.md)
 
