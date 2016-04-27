@@ -112,6 +112,8 @@ public sealed partial class MainPage : Page
 
             try
             {
+                hapinessRatio.Text = "Loading...";
+
                 float result = await Core.GetAverageHappinessScore(await _file.OpenStreamForReadAsync());
 
                 hapinessRatio.Text = Core.GetHappinessMessage(result);

@@ -185,6 +185,9 @@ public class MainActivity : Activity
             //Display the image
             _imageView.SetImageBitmap(_bitmap);
 
+            //Loading message
+            _resultTextView.Text = "Loading...";
+
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
             {
                 //Get a stream
