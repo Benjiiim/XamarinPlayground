@@ -93,6 +93,10 @@ namespace AndroidApp
             {
                 //Get the bitmap with the right rotation
                 _bitmap = BitmapHelpers.GetAndRotateBitmap(_file.Path);
+                //_bitmap = BitmapFactory.DecodeFile(_file.Path);
+
+                //Display the image
+                _imageView.SetImageBitmap(_bitmap);
 
                 using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
                 {
