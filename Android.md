@@ -182,6 +182,9 @@ public class MainActivity : Activity
             //Get the bitmap with the right rotation
             _bitmap = BitmapHelpers.GetAndRotateBitmap(_file.Path);
 
+            //Display the image
+            _imageView.SetImageBitmap(_bitmap);
+
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
             {
                 //Get a stream
@@ -192,9 +195,6 @@ public class MainActivity : Activity
                 float result = await Core.GetAverageHappinessScore(stream);
                 _resultTextView.Text = Core.GetHappinessMessage(result);
             }
-
-            //Display the image
-            _imageView.SetImageBitmap(_bitmap);
         }
         catch (Exception ex)
         {
