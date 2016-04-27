@@ -110,15 +110,15 @@ public sealed partial class MainPage : Page
         {
             await ImageCaptureAndDisplay();
 
+            previewImage.Visibility = Visibility.Visible;
+
+            hapinessRatio.Text = "Loading...";
+
             try
             {
-                hapinessRatio.Text = "Loading...";
-
                 float result = await Core.GetAverageHappinessScore(await _file.OpenStreamForReadAsync());
 
                 hapinessRatio.Text = Core.GetHappinessMessage(result);
-
-                previewImage.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
