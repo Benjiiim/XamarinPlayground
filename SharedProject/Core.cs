@@ -11,7 +11,7 @@ namespace SharedProject
     {
         private static async Task<Emotion[]> GetHappiness(Stream stream)
         {
-            string emotionKey = "88f748eefd944a5d8d337a1765414bba";
+            string emotionKey = "YourKeyHere";
 
             EmotionServiceClient emotionClient = new EmotionServiceClient(emotionKey);
 
