@@ -33,7 +33,7 @@ namespace iOSApp
 				}
 
 				ThePhoto.Image = e.OriginalImage;
-				DetailsText.Text = "Processing...";
+				DetailsText.Text = "Loading...";
 
 				((UIImagePickerController)o).DismissViewController (true, null);
 
